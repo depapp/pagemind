@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageMind History Feature Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .step {
+            background: #f4f4f4;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Testing PageMind History Feature</h1>
+    
+    <p>This page will help you test the new history feature where clicking on a history item both opens the page AND displays the cached summary.</p>
+    
+    <h2>📋 Test Steps:</h2>
+    
+    <div class="step">
+        <h3>Step 1: Ensure Backend is Running</h3>
+        <p>Make sure your backend server is running:</p>
+        <code>cd pagemind-backend && npm start</code>
+    </div>
+    
+    <div class="step">
+        <h3>Step 2: Create a Room</h3>
+        <ol>
+            <li>Open PageMind extension</li>
+            <li>Click "Create New Room"</li>
+            <li>Enter your Gemini API key</li>
+            <li>Note your room ID</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>Step 3: Summarize Some Pages</h3>
+        <ol>
+            <li>Visit any webpage (e.g., a news article, blog post)</li>
+            <li>Open PageMind extension</li>
+            <li>Click "Summarize Page"</li>
+            <li>Wait for the summary to generate</li>
+            <li>Repeat for 2-3 different pages</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>Step 4: Test the History Feature</h3>
+        <ol>
+            <li>Open PageMind extension</li>
+            <li>Look at the "Room Summaries" section</li>
+            <li>Click on any history item</li>
+            <li>The page should open in a new tab</li>
+            <li>Open PageMind extension in the new tab</li>
+            <li><strong>✨ The cached summary should automatically appear with the cache indicator!</strong></li>
+        </ol>
+    </div>
+    
+    <div class="note">
+        <h3>💡 What's Happening Behind the Scenes:</h3>
+        <ul>
+            <li>When you click a history item, the extension stores the summary data temporarily</li>
+            <li>It opens the URL in a new tab</li>
+            <li>When you open the extension in that tab, it checks if the URL matches any pending summary</li>
+            <li>If it matches, it displays the cached summary automatically</li>
+            <li>The cache indicator shows that it came from Redis cache</li>
+        </ul>
+    </div>
+    
+    <h2>🎯 Expected Results:</h2>
+    <ul>
+        <li>✅ Clicking history item opens the webpage</li>
+        <li>✅ Opening extension on that page shows the cached summary</li>
+        <li>✅ Cache indicator is visible (lightning bolt icon)</li>
+        <li>✅ No new API call is made to Gemini</li>
+        <li>✅ Summary appears instantly from Redis cache</li>
+    </ul>
+    
+    <h2>🐛 Troubleshooting:</h2>
+    <ul>
+        <li><strong>Summary doesn't appear:</strong> Make sure you open the extension within 10 seconds of clicking the history item</li>
+        <li><strong>Cache indicator missing:</strong> The summary might be fetched fresh if Redis connection has issues</li>
+        <li><strong>Extension not updating:</strong> Reload the extension from chrome://extensions/</li>
+    </ul>
+</body>
+</html>

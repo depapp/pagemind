@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PageMind - AI Page Summarizer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>PageMind</h1>
+      </div>
+      <button id="settingsBtn" class="icon-btn" title="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 1V6M12 18V23M4.22 4.22L7.76 7.76M16.24 16.24L19.78 19.78M1 12H6M18 12H23M4.22 19.78L7.76 16.24M16.24 7.76L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Main Views Container -->
+    <div id="viewsContainer" class="views-container">
+      <!-- Step 1: Room Selection -->
+      <div id="roomSelectionView" class="view active">
+        <div class="view-content">
+          <h2>Welcome to PageMind</h2>
+          <p class="subtitle">Create or join a room to start sharing AI-powered summaries</p>
+          <div class="room-actions">
+            <button id="createRoomBtn" class="btn btn-primary btn-large">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Create New Room
+            </button>
+            <button id="joinRoomBtn" class="btn btn-secondary btn-large">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Join Existing Room
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: API Key Setup -->
+      <div id="apiKeyView" class="view" style="display: none;">
+        <div class="view-content">
+          <button id="backToRoomBtn" class="btn btn-small btn-secondary back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+          </button>
+          <h2>Configure Gemini API</h2>
+          <p class="subtitle">As the room creator, provide your Google Gemini API key to enable AI summaries for all room members</p>
+          
+          <div class="api-key-form">
+            <label for="apiKeyInput">Gemini API Key</label>
+            <input type="password" id="apiKeyInput" class="input" placeholder="AIza..." />
+            <p class="help-text">
+              Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+            </p>
+            <button id="saveApiKeyBtn" class="btn btn-primary">Save and Continue</button>
+          </div>
+          
+          <div class="room-info-display" style="display: none;">
+            <p>Room ID: <span id="roomIdDisplay" class="room-id"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Main Interface -->
+      <div id="mainView" class="view" style="display: none;">
+        <div class="room-header">
+          <div class="room-info">
+            <span class="room-label">Room:</span>
+            <span id="roomId" class="room-id"></span>
+            <button id="copyRoomBtn" class="icon-btn" title="Copy Room ID">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+          </div>
+          <button id="leaveRoomBtn" class="btn btn-small">Leave Room</button>
+        </div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Current Page Section -->
+          <div id="currentPageSection" class="current-page-section">
+            <h2>Current Page</h2>
+            <div id="pageInfo" class="page-info">
+              <p id="pageTitle" class="page-title"></p>
+              <p id="pageUrl" class="page-url"></p>
+            </div>
+            
+            <div id="summarizeActions" class="summarize-actions">
+              <button id="summarizeBtn" class="btn btn-primary btn-large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Summarize Page
+              </button>
+              
+              <div class="summary-options">
+                <select id="summaryLength" class="select">
+                  <option value="brief">Brief</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="detailed">Detailed</option>
+                </select>
+              </div>
+            </div>
+            
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+              <div class="spinner"></div>
+              <p>Generating summary...</p>
+            </div>
+            
+            <div id="summaryResult" class="summary-result" style="display: none;">
+              <div class="summary-header">
+                <h3>Summary</h3>
+                <div class="summary-meta">
+                  <span id="cacheIndicator" class="cache-indicator" style="display: none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    From cache
+                  </span>
+                  <span id="summaryTime" class="summary-time"></span>
+                </div>
+              </div>
+              
+              <div id="summaryContent" class="summary-content"></div>
+              
+              <div id="keyPoints" class="key-points" style="display: none;">
+                <h4>Key Points</h4>
+                <ul id="keyPointsList"></ul>
+              </div>
+              
+              <div class="summary-actions">
+                <button id="copyBtn" class="btn btn-small">Copy</button>
+                <button id="exportBtn" class="btn btn-small">Export</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Room Summaries Section -->
+          <div id="roomSummariesSection" class="room-summaries-section">
+            <div class="section-header">
+              <h2>Room Summaries</h2>
+              <button id="refreshSummariesBtn" class="icon-btn" title="Refresh">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M23 20V14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M20.49 9C19.9 5.5 16.8 3 13 3C8.6 3 5 6.6 5 11S8.6 19 13 19C16.1 19 18.7 17.2 20 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+            
+            <div id="summariesList" class="summaries-list"></div>
+            
+            <div id="noSummaries" class="no-summaries" style="display: none;">
+              <p>No summaries in this room yet</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Join Room Modal -->
+    <div id="joinRoomModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h3>Join Room</h3>
+        <input type="text" id="roomIdInput" placeholder="Enter 6-character room ID" maxlength="6" class="input">
+        <div class="modal-actions">
+          <button id="confirmJoinBtn" class="btn btn-primary">Join</button>
+          <button id="cancelJoinBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h3>Settings</h3>
+        
+        <div class="setting-group">
+          <label for="languageSelect">Summary Language</label>
+          <select id="languageSelect" class="select">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="pt">Portuguese</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+            <option value="zh">Chinese</option>
+            <option value="id">Indonesian</option>
+          </select>
+        </div>
+        
+        <div class="setting-group">
+          <label>
+            <input type="checkbox" id="autoSummarize">
+            Auto-summarize pages on load
+          </label>
+        </div>
+        
+        <div class="setting-group">
+          <label>
+            <input type="checkbox" id="darkMode">
+            Dark mode
+          </label>
+        </div>
+        
+        <div class="modal-actions">
+          <button id="saveSettingsBtn" class="btn btn-primary">Save</button>
+          <button id="cancelSettingsBtn" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
