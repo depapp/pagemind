@@ -2,7 +2,7 @@
 nixPkgs = ["nodejs-18_x"]
 
 [phases.install]
-cmds = ["cd pagemind-backend && npm install"]
+cmds = ["npm install"]
 
 [start]
-cmd = "cd pagemind-backend && npm start"
+cmd = "npm start"

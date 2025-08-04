@@ -1,0 +1,28 @@
+{
+  "name": "pagemind-monorepo",
+  "version": "1.0.0",
+  "description": "PageMind - Real-Time Collaborative Web Summarization",
+  "private": true,
+  "scripts": {
+    "install": "cd pagemind-backend && npm install",
+    "start": "cd pagemind-backend && npm start",
+    "dev": "cd pagemind-backend && npm run dev",
+    "test": "cd pagemind-backend && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/depapp/pagemind.git"
+  },
+  "keywords": [
+    "redis",
+    "chrome-extension",
+    "ai",
+    "summarization"
+  ],
+  "author": "PageMind Contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/depapp/pagemind/issues"
+  },
+  "homepage": "https://github.com/depapp/pagemind#readme"
+}
