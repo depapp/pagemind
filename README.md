@@ -146,31 +146,6 @@ With Redis caching, PageMind achieves:
 - **85-95%** cache hit rate in production
 - Support for **1000+ concurrent users**
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built for the [Redis AI Challenge 2025](https://dev.to/challenges/redis-2025-07-23)
-- Powered by [Redis Cloud](https://redis.com/cloud/overview/)
-- AI summaries by [Google Gemini](https://ai.google.dev/)
-
-## 📧 Contact
-
-- GitHub: [@depapp](https://github.com/depapp)
-- Project Link: [https://github.com/depapp/pagemind](https://github.com/depapp/pagemind)
-
 ---
 
 <p align="center">Made with ❤️ and Redis</p>
