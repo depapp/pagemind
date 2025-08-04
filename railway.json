@@ -2,11 +2,14 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd pagemind-backend && npm install"
+    "buildCommand": "npm install",
+    "watchPatterns": [
+      "backend/**"
+    ]
   },
   "deploy": {
-    "startCommand": "cd pagemind-backend && npm start",
-    "healthcheckPath": "/health",
+    "startCommand": "npm start",
+    "healthcheckPath": "/api/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
