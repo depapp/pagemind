@@ -4,7 +4,7 @@
     "builder": "NIXPACKS",
     "buildCommand": "npm install",
     "watchPatterns": [
-      "backend/**"
+      "pagemind-backend/**"
     ]
   },
   "deploy": {
