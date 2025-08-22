@@ -5,7 +5,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-> Transform how teams consume web content with AI-powered summarization and Redis-powered real-time collaboration.
+## Full Explanation on DEV.to Article
+- https://dev.to/depapp/pagemind-real-time-collaborative-web-summarization-powered-by-redis-8s-lightning-fast-cache-2a6h
 
 ## 🚀 Features
 
